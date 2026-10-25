@@ -7,9 +7,9 @@ import "./globals.css"
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "VIBE*BISTRO - No Cap, Just Flavor",
+  title: "TRANSFORMERS HUB - More Than Meets the Eye",
   description:
-    "Serving 70s aesthetics with a modern twist. Locally sourced, highkey delicious, and strictly for the vibers.",
+    "Discover Transformers action figures, collectibles, and merchandise for Autobots and Decepticons fans.",
   generator: "v0.app",
   icons: {
     icon: [
