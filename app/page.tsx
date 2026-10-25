@@ -221,7 +221,12 @@ export default function Home() {
                 >
                   {product.tag}
                 </span>
-                <img src={product.image} alt={product.alt} decoding="async" />
+                <img
+                  className={product.name === "Optimus Prime" || product.name === "Starscream" ? "portrait-product-image" : undefined}
+                  src={product.image}
+                  alt={product.alt}
+                  decoding="async"
+                />
                 <div className="menu-card-body">
                   <div
                     style={{

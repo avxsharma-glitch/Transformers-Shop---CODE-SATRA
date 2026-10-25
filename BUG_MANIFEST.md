@@ -1,182 +1,164 @@
-# Find the Flaw: Catch the Bug — Organizer Manifest
+# Transformers Hub — Final Bug Manifest
 
-This document lists the intentional defects currently present in the Transformers Hub competition build. It is not linked from the website.
+Private organizer documentation for **Find the Flaw: Catch the Bug**. This file is not linked from the participant-facing website.
 
-## Active bugs
+## Planned intentional bugs
 
-### BUG-001 — Collections navigation lands on the gallery
+### BUG-001 — Collections navigation opens the wrong section
 
-- **File:** `app/page.tsx`
-- **Affected element:** Header `Collections` link
-- **Steps:** Click `Collections` in the header.
-- **Expected:** Scroll to the collections/universe section.
-- **Actual:** Scrolls to the gallery section.
+- **Classification:** Intentional
+- **Category:** Navigation
 - **Severity:** Medium
-- **Suggested fix:** Change the target from `#gallery` to `#universe`.
+- **Location:** `app/page.tsx`, header navigation
+- **Preconditions:** Open the home page.
+- **Reproduction:**
+  1. Click `Collections` in the header.
+- **Expected Result:** The page scrolls to the collections/universe section.
+- **Actual Result:** The link targets `#gallery` and scrolls to the gallery.
+- **Verification:** Verified
+- **Fix Hint:** Change the `Collections` anchor to the intended section target.
 
-### BUG-002 — Header Shop Now opens the gallery
+### BUG-002 — Header Shop Now performs the wrong action
 
-- **File:** `app/page.tsx`
-- **Affected element:** Header `Shop Now` button
-- **Steps:** Click `Shop Now` in the header.
-- **Expected:** Scroll to the collectibles section.
-- **Actual:** Scrolls to the gallery section.
+- **Classification:** Intentional
+- **Category:** Functional / Navigation
 - **Severity:** Medium
-- **Suggested fix:** Scroll to `#collectibles`.
+- **Location:** `app/page.tsx`, header `Shop Now` button
+- **Preconditions:** Open the home page.
+- **Reproduction:**
+  1. Click the header `Shop Now` button.
+- **Expected Result:** The page scrolls to `#collectibles`.
+- **Actual Result:** The handler scrolls to `#gallery`.
+- **Verification:** Verified
+- **Fix Hint:** Change the handler to scroll to the collectibles section.
 
 ### BUG-003 — Decepticons filter returns Autobots
 
-- **File:** `app/page.tsx`
-- **Affected element:** Faction selector
-- **Steps:** Select `Decepticons`.
-- **Expected:** Show only Decepticon products.
-- **Actual:** Shows Autobots products.
+- **Classification:** Intentional
+- **Category:** Functional / Filtering
 - **Severity:** High
-- **Suggested fix:** Compare the selected category directly with `product.category`.
+- **Location:** `app/page.tsx`, `visibleProducts` category filter
+- **Preconditions:** Open the product section.
+- **Reproduction:**
+  1. Open the `Faction` selector.
+  2. Select `Decepticons`.
+- **Expected Result:** Only Decepticon products are displayed.
+- **Actual Result:** The conditional compares Decepticons against `Autobots`, so Autobots are displayed.
+- **Verification:** Verified
+- **Fix Hint:** Compare the selected category directly with `product.category`.
 
-### BUG-004 — Partial product search misses valid matches
+### BUG-004 — Partial-name search misses valid matches
 
-- **File:** `app/page.tsx`
-- **Affected element:** Product search
-- **Steps:** Search for `Prime`.
-- **Expected:** Show Optimus Prime.
-- **Actual:** No result appears because matching only checks the beginning of the name.
+- **Classification:** Intentional
+- **Category:** Functional / Search
 - **Severity:** Medium
-- **Suggested fix:** Use a case-insensitive `includes` check.
+- **Location:** `app/page.tsx`, `visibleProducts` search predicate
+- **Preconditions:** Open the product section.
+- **Reproduction:**
+  1. Enter `Prime` in the search field.
+- **Expected Result:** Optimus Prime is returned because `Prime` occurs in the product name.
+- **Actual Result:** No result is returned because the implementation uses `startsWith`.
+- **Verification:** Verified
+- **Fix Hint:** Use a case-insensitive substring match such as `includes`.
 
 ### BUG-005 — High-to-low price sorting is reversed
 
-- **File:** `app/page.tsx`
-- **Affected element:** Sort selector
-- **Steps:** Select `Price: high to low`.
-- **Expected:** Highest-priced products appear first.
-- **Actual:** Products are sorted low to high.
+- **Classification:** Intentional
+- **Category:** Functional / Sorting
 - **Severity:** Medium
-- **Suggested fix:** Return `b.price - a.price` for descending order.
+- **Location:** `app/page.tsx`, `visibleProducts` sort logic
+- **Preconditions:** Open the product section.
+- **Reproduction:**
+  1. Set `Sort` to `Price: high to low`.
+- **Expected Result:** Products appear from highest price to lowest price.
+- **Actual Result:** The `price-desc` branch returns `a.price - b.price`, producing ascending order.
+- **Verification:** Verified
+- **Fix Hint:** Return `b.price - a.price` for descending order.
 
 ### BUG-006 — Megatron opens Bumblebee details
 
-- **File:** `app/page.tsx`
-- **Affected element:** Megatron product card
-- **Steps:** Click or keyboard-activate Megatron.
-- **Expected:** Open Megatron details.
-- **Actual:** Opens Bumblebee details.
+- **Classification:** Intentional
+- **Category:** Functional / Product details
 - **Severity:** High
-- **Suggested fix:** Set the selected product to the activated product.
+- **Location:** `app/page.tsx`, `openProductDetails`
+- **Preconditions:** Open the product section.
+- **Reproduction:**
+  1. Click or keyboard-activate the Megatron card.
+- **Expected Result:** The details panel identifies Megatron.
+- **Actual Result:** The handler substitutes `products[1]`, so Bumblebee details are shown.
+- **Verification:** Verified
+- **Fix Hint:** Set the selected product to the product that was activated.
 
-### BUG-007 — Fourth gallery tile uses the wrong image
+### BUG-007 — Fourth gallery tile displays the wrong image
 
-- **File:** `app/page.tsx`
-- **Affected element:** Fourth gallery tile
-- **Steps:** Compare the fourth tile with its expected hero artwork.
-- **Expected:** Display the hero image assigned to that tile.
-- **Actual:** Displays a different existing gallery image.
+- **Classification:** Intentional, previously planted
+- **Category:** UI / Imagery
 - **Severity:** Low
-- **Suggested fix:** Restore the fourth tile source to `/transformers-hero.png`.
+- **Location:** `app/page.tsx`, gallery fourth tile
+- **Preconditions:** Open the gallery.
+- **Reproduction:**
+  1. Compare the fourth tile source with the intended hero artwork.
+- **Expected Result:** The fourth tile uses the assigned hero image.
+- **Actual Result:** **Not reproducible in the current tree.** The fourth tile currently uses `/transformers-hero.png`.
+- **Verification:** Not Reproducible
+- **Fix Hint:** No action is required in the current tree; restoring the incorrect source would reintroduce the defect.
 
-### BUG-008 — Shop controls overflow at narrow mobile widths
+### BUG-008 — Product controls overflow on narrow mobile screens
 
-- **File:** `app/globals.css`
-- **Affected element:** Product controls
-- **Steps:** Open the page at 480px width or less and view the controls.
-- **Expected:** Controls fit within the viewport.
-- **Actual:** A fixed 520px width causes clipping or horizontal overflow.
+- **Classification:** Intentional
+- **Category:** Responsive / UI
 - **Severity:** Medium
-- **Suggested fix:** Remove the fixed width at narrow breakpoints.
+- **Location:** `app/globals.css`, narrow-screen `.shop-controls` rule
+- **Preconditions:** Use a viewport at or below 480px and open the product section.
+- **Reproduction:**
+  1. Set the viewport width to 480px or less.
+  2. Scroll to the product controls.
+- **Expected Result:** Search, faction, and sort controls remain within the viewport.
+- **Actual Result:** `.shop-controls` has a fixed `width: 520px`, which exceeds the narrow viewport.
+- **Verification:** Verified by source inspection; visual browser reproduction was unavailable.
+- **Fix Hint:** Remove the fixed width and allow the controls to size fluidly.
 
-### BUG-009 — Invalid collector email is accepted
+### BUG-009 — Invalid collector input is accepted
 
-- **File:** `app/page.tsx`
-- **Affected element:** Collector updates form
-- **Steps:** Enter `abcd` and submit.
-- **Expected:** Reject the invalid email.
-- **Actual:** Shows the success state.
+- **Classification:** Intentional
+- **Category:** Functional / Form validation
 - **Severity:** Medium
-- **Suggested fix:** Validate the value as an email address.
+- **Location:** `app/page.tsx`, collector updates form
+- **Preconditions:** Open the footer form.
+- **Reproduction:**
+  1. Enter `abcd` in the collector input.
+  2. Submit the form.
+- **Expected Result:** The invalid email-like value is rejected.
+- **Actual Result:** The success state appears because validation only checks `email.length > 3`.
+- **Verification:** Verified
+- **Fix Hint:** Validate the value using an email format check.
 
-### BUG-010 — Bumblebee image has Megatron alternative text
+### BUG-010 — Bumblebee image has incorrect alternative text
 
-- **File:** `app/page.tsx`
-- **Affected element:** Bumblebee product image
-- **Steps:** Inspect the image with a screen reader or accessibility tree.
-- **Expected:** Announce Bumblebee collectible.
-- **Actual:** Announces Megatron collectible.
+- **Classification:** Intentional
+- **Category:** Accessibility
 - **Severity:** Low
-- **Suggested fix:** Change the alt text to `Bumblebee collectible`.
+- **Location:** `app/page.tsx`, Bumblebee product data
+- **Preconditions:** Inspect the product image with an accessibility tree or screen reader.
+- **Reproduction:**
+  1. Inspect the Bumblebee card image alternative text.
+- **Expected Result:** The image is announced as a Bumblebee collectible.
+- **Actual Result:** The data uses `Megatron collectible` as Bumblebee's alt text.
+- **Verification:** Verified
+- **Fix Hint:** Change the alt text to `Bumblebee collectible`.
 
-### BUG-011 — Empty product results have no feedback
+## Legacy intentional defects outside the required ten
 
-- **File:** `app/page.tsx`
-- **Affected element:** Product grid
-- **Steps:** Search for a nonexistent product name.
-- **Expected:** Show a no-results message and recovery action.
-- **Actual:** The grid becomes empty with no explanation.
-- **Severity:** Medium
-- **Suggested fix:** Render an empty state with a reset action.
+These were already present in the competition build and are not counted as naturally occurring findings:
 
-### BUG-012 — Product details dialog lacks complete modal accessibility
+- **BUG-011:** Empty product results have no feedback.
+- **BUG-012:** Product details dialog lacks complete modal accessibility.
+- **BUG-013:** Space-key product-card activation does not prevent page scrolling.
+- **BUG-014:** Whitespace-only collector input is accepted.
+- **BUG-015:** Product cards have no visible focus styling.
+- **BUG-016:** `Our Universe` links to the nonexistent `/universe` route and returns 404.
+- **BUG-017:** `New Arrivals` links to the nonexistent `/new-arrivals` route and returns 404.
 
-- **File:** `app/page.tsx`
-- **Affected element:** Product details panel
-- **Steps:** Open any product details panel and inspect its accessibility tree.
-- **Expected:** Announce a modal dialog and move focus into it.
-- **Actual:** The dialog lacks `aria-modal` and focus management.
-- **Severity:** Medium
-- **Suggested fix:** Add modal semantics and focus management.
+## Naturally occurring additional defects
 
-### BUG-013 — Space key scrolls while activating product cards
-
-- **File:** `app/page.tsx`
-- **Affected element:** Keyboard-accessible product cards
-- **Steps:** Tab to a product card and press Space.
-- **Expected:** Open details without page scrolling.
-- **Actual:** Details open, but the browser also performs default Space scrolling.
-- **Severity:** Low
-- **Suggested fix:** Prevent the Space key default action.
-
-### BUG-014 — Whitespace-only collector input is accepted
-
-- **File:** `app/page.tsx`
-- **Affected element:** Collector updates form
-- **Steps:** Enter four spaces and submit.
-- **Expected:** Reject whitespace-only input.
-- **Actual:** Shows the success state.
-- **Severity:** Medium
-- **Suggested fix:** Trim before validating.
-
-### BUG-015 — Product cards have no visible focus styling
-
-- **File:** `app/page.tsx`, `app/globals.css`
-- **Affected element:** Product cards
-- **Steps:** Press Tab until a product card is focused.
-- **Expected:** Show a clear focus indicator.
-- **Actual:** No visible focus state is provided.
-- **Severity:** Medium
-- **Suggested fix:** Add a `:focus-visible` outline or equivalent.
-
-### BUG-016 — Our Universe navigates to a missing route
-
-- **File:** `app/page.tsx`
-- **Affected element:** `Our Universe` button
-- **Steps:** Click `Our Universe` in the story section.
-- **Expected:** Scroll to the existing Transformers universe section or open a valid page.
-- **Actual:** Navigates to `/universe`, which has no route and displays a 404 page.
-- **Severity:** High
-- **Suggested fix:** Use `href="#universe"` or scroll the existing section into view.
-
-### BUG-017 — New Arrivals navigates to a missing route
-
-- **File:** `app/page.tsx`
-- **Affected element:** Header `New Arrivals` link
-- **Steps:** Click `New Arrivals` in the header and inspect the browser console/network activity.
-- **Expected:** Navigate to the existing arrivals/products section without errors.
-- **Actual:** Requests `/new-arrivals`, which has no route; the navigation fails with a 404 and produces a failed document request.
-- **Severity:** High
-- **Suggested fix:** Link to the existing `#collectibles` section or create a valid route.
-
-## Verification notes
-
-- The application has one implemented route: `/`.
-- `/universe` and `/new-arrivals` are intentionally nonexistent routes for BUG-016 and BUG-017.
-- No real payment, authentication, destructive action, or external data submission is involved.
-- Build verification should be run after any future changes; these defects are intentionally retained for the competition.
+No additional naturally occurring defects were confirmed during this audit. The route failures and accessibility issues listed above are retained intentional competition defects, not newly discovered natural defects.

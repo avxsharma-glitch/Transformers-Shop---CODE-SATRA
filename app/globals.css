@@ -472,6 +472,11 @@ nav a:hover {
   border-bottom: var(--border);
 }
 
+.menu-card img.portrait-product-image {
+  object-fit: contain;
+  background: white;
+}
+
 @media (min-width: 768px) {
   .menu-card img {
     height: 280px;
