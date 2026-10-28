@@ -517,6 +517,7 @@ nav a:hover {
   color: white;
   display: flex;
   flex-direction: column;
+  position: relative;
   border-top: var(--border);
   border-bottom: var(--border);
 }
@@ -530,6 +531,11 @@ nav a:hover {
 .retro-vibe > div {
   flex: 1 1 0%;
   padding: 40px 20px;
+}
+
+.retro-vibe > .mystery-bulb {
+  flex: none;
+  padding: 0;
 }
 
 @media (min-width: 768px) {
@@ -568,6 +574,170 @@ nav a:hover {
   line-height: 1.6;
   margin-bottom: 30px;
   color: rgb(255, 207, 186);
+}
+
+.mystery-bulb {
+  position: absolute;
+  right: 24px;
+  bottom: 20px;
+  z-index: 4;
+}
+
+.mystery-bulb-trigger {
+  position: relative;
+  display: grid;
+  width: 48px;
+  height: 62px;
+  place-items: center;
+  padding: 0;
+  color: white;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.mystery-bulb-trigger svg {
+  position: relative;
+  z-index: 1;
+  width: 30px;
+  height: 43px;
+  filter: drop-shadow(0 3px 4px rgba(67, 25, 0, 0.45));
+  transition: filter 0.35s ease, transform 0.35s ease;
+}
+
+.mystery-bulb-glow {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ffd35c;
+  filter: blur(13px);
+  opacity: 0.6;
+  animation: mystery-bulb-pulse 3.4s ease-in-out infinite;
+}
+
+.mystery-bulb-trigger:hover svg,
+.mystery-bulb-trigger:focus-visible svg {
+  filter: drop-shadow(0 0 7px #fff0a3) drop-shadow(0 3px 4px rgba(67, 25, 0, 0.45));
+  transform: translateY(-2px);
+}
+
+.mystery-bulb-trigger:focus-visible {
+  outline: 2px solid #fff3b0;
+  outline-offset: 3px;
+}
+
+.mystery-bulb-tooltip {
+  position: absolute;
+  right: 52px;
+  top: 50%;
+  width: max-content;
+  max-width: 190px;
+  padding: 7px 10px;
+  color: #ffe9ae;
+  background: rgba(26, 16, 8, 0.9);
+  border: 1px solid rgba(255, 224, 143, 0.35);
+  border-radius: 5px;
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(4px, -50%);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.mystery-bulb-trigger:hover .mystery-bulb-tooltip,
+.mystery-bulb-trigger:focus-visible .mystery-bulb-tooltip {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+.mystery-bulb-popover {
+  position: absolute;
+  right: 0;
+  bottom: 70px;
+  width: min(390px, calc(100vw - 32px));
+  max-height: min(470px, calc(100vh - 48px));
+  overflow: auto;
+  padding: 20px 21px;
+  color: #fff3cf;
+  background: linear-gradient(145deg, rgba(35, 23, 16, 0.96), rgba(11, 12, 16, 0.94));
+  border: 1px solid rgba(255, 218, 125, 0.38);
+  border-radius: 12px;
+  box-shadow: 0 16px 42px rgba(37, 13, 0, 0.32), inset 0 1px rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  animation: mystery-popover-in 0.3s ease both;
+}
+
+.mystery-bulb-popover-eyebrow {
+  margin-bottom: 12px;
+  color: #f5bb3e;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.mystery-bulb-popover p {
+  white-space: pre-line;
+  font-family: "Playfair Display", serif;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.mystery-bulb-particles i {
+  position: absolute;
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #ffe8a0;
+  opacity: 0;
+  animation: mystery-particle 4.5s ease-in-out infinite;
+}
+
+.mystery-bulb-particles i:nth-child(1) { left: 3px; top: 17px; animation-delay: 0.8s; }
+.mystery-bulb-particles i:nth-child(2) { right: 0; top: 7px; animation-delay: 2.2s; }
+.mystery-bulb-particles i:nth-child(3) { left: 9px; top: 2px; animation-delay: 3.3s; }
+
+@keyframes mystery-bulb-pulse {
+  0%, 100% { opacity: 0.45; transform: scale(0.9); }
+  50% { opacity: 0.72; transform: scale(1.12); }
+}
+
+@keyframes mystery-particle {
+  0%, 100% { opacity: 0; transform: translateY(8px) scale(0.7); }
+  35% { opacity: 0.65; }
+  70% { opacity: 0; transform: translateY(-12px) scale(1); }
+}
+
+@keyframes mystery-popover-in {
+  from { opacity: 0; transform: translateY(7px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 767px) {
+  .mystery-bulb {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .mystery-bulb-popover {
+    right: -4px;
+    bottom: 68px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mystery-bulb-glow,
+  .mystery-bulb-particles i {
+    animation: none;
+  }
+
+  .mystery-bulb-popover {
+    animation: none;
+  }
 }
 
 @media (min-width: 768px) {

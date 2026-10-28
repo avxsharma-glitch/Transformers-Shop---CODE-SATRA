@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { Github, Linkedin } from "lucide-react"
+import { MysteryLightBulb } from "@/components/mystery-light-bulb"
 
 const products = [
   {
@@ -59,6 +60,7 @@ export default function Home() {
   const [email, setEmail] = useState("")
   const [submitted, setSubmitted] = useState(false)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const [mysteryBulbOpen, setMysteryBulbOpen] = useState(false)
 
   const visibleProducts = useMemo(() => {
     const filtered = products.filter((product) => {
@@ -266,12 +268,17 @@ export default function Home() {
             <a
               className="btn-cta"
               style={{ background: "var(--dark)", color: "white", borderColor: "white" }}
-              href="/universe"
+              href="#universe"
+              onClick={(event) => {
+                event.preventDefault()
+                setMysteryBulbOpen(true)
+              }}
             >
               Our Universe
             </a>
           </div>
           <div className="vibe-img"></div>
+          <MysteryLightBulb isOpen={mysteryBulbOpen} onOpenChange={setMysteryBulbOpen} />
         </section>
 
         <section id="gallery" className="section-padding">
